@@ -4,26 +4,25 @@ import interpolate from 'color-interpolate';
 import { Chart, registerables } from 'chart.js';
 import { Component, createEffect, createMemo, onMount } from "solid-js";
 
-import progressStore from "../stores/progressStore";
-import { Time } from '../stores/time';
+import { tasksRecordsStore } from '../stores/store';
 
 Chart.register(...registerables);
 
 export const TaskProgressChart: Component<{ taskNumber: number }> = (props) => {
-    const createLabels = () => progressStore.tasksRecords[props.taskNumber].records?.map((record) => {
+    const createLabels = () => tasksRecordsStore.tasksRecords[props.taskNumber].records?.map((record) => {
         return record.startDate.toString().slice(0, 10);
     }) ?? [];
 
-    const createData = () => progressStore.tasksRecords[props.taskNumber].records?.map((record) => 
-        Time.makeInt(record.duration)
+    const createData = () => tasksRecordsStore.tasksRecords[props.taskNumber].records?.map((record) => 
+        record.duration.raw
     ) ?? [];
 
     const colormap = createMemo(() => interpolate(['red', 'green']));
     const createColors = () => {
-        const min = progressStore.tasksRecords[props.taskNumber].minDuration;
-        const max = progressStore.tasksRecords[props.taskNumber].maxDuration;        
-        return progressStore.tasksRecords[props.taskNumber].records?.map((record) => (
-            colormap()(1 - (max == min ? 1 : (Time.makeInt(record.duration) - min) / (max - min)))
+        const min = tasksRecordsStore.tasksRecords[props.taskNumber].minDuration;
+        const max = tasksRecordsStore.tasksRecords[props.taskNumber].maxDuration;        
+        return tasksRecordsStore.tasksRecords[props.taskNumber].records?.map((record) => (
+            colormap()(1 - (max == min ? 0 : (record.duration.raw - min) / (max - min)))
         )) ?? [];
     }
 

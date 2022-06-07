@@ -2,7 +2,7 @@
 
 import { createSignal } from "solid-js";
 
-export function useWindowSize() {
+export function createWindowSize() {
     const [windowSize, setWindowSize] = createSignal(window.innerWidth);
     window.addEventListener('resize', () => {
         setWindowSize(window.innerWidth);

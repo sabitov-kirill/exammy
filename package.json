@@ -1,29 +1,23 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
+  "name": "ege-progress-tracker-server",
+  "version": "1.0.0",
+  "description": "EGE progress tracker server-side application.",
+  "main": "index.js",
   "scripts": {
-    "start": "vite",
-    "dev": "vite",
-    "host": "vite --host",
-    "build": "vite build",
-    "serve": "vite preview"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^4.6.4",
-    "vite": "^2.9.9",
-    "vite-plugin-solid": "^2.2.6"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabitov-kirill/ege-progress-tracker.git"
   },
+  "author": "ne1mnn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sabitov-kirill/ege-progress-tracker/issues"
+  },
+  "homepage": "https://github.com/sabitov-kirill/ege-progress-tracker#readme",
   "dependencies": {
-    "@hope-ui/solid": "^0.6.2",
-    "@stitches/core": "^1.2.8",
-    "chart.js": "^3.8.0",
-    "color-interpolate": "^1.0.5",
-    "solid-app-router": "^0.3.3",
-    "solid-chart.js": "^1.0.7",
-    "solid-icons": "^0.4.12",
-    "solid-js": "^1.4.2",
-    "solid-transition-group": "^0.0.10"
+    "express": "^4.18.1"
   }
 }
