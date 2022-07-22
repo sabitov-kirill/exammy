@@ -1,8 +1,5 @@
-body {
-  width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Montserrat+Alternates:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
 
 *::-webkit-scrollbar {
   width: 5px;

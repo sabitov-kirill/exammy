@@ -1,54 +1,86 @@
 // Sabitov Kirill, 6/3/2022
 
-import { IconButton, useColorModeValue, Flex } from "@hope-ui/solid"
-import { Link, useMatch } from "solid-app-router"
-import { BiTask } from "solid-icons/bi"
-import { FiMenu } from "solid-icons/fi"
-import { ImStatsDots } from "solid-icons/im"
-import { Component, JSXElement } from "solid-js"
+import React from "react";
+import {
+    Box,
+    Drawer,
+    DrawerContent,
+    DrawerOverlay,
+    Flex,
+    HStack,
+    IconButton,
+    Text,
+    useColorModeValue,
+    useDisclosure,
+    VStack
+} from "@chakra-ui/react";
+import { BiTask } from "react-icons/bi";
+import { ImStatsDots } from "react-icons/im";
+import { AiOutlineMenu } from "react-icons/ai";
 
-import { showChooseSubjectNotify } from "./Feedback"
-import { subjectStore } from "../stores/store"
-import { SubjectSelectPopover } from './SubjectSelectPopover'
+import { NavigationButton, NavigationButtonToMain } from "./NavigationButton";
+import { ColorModeSwitcher } from "./ColorModeSwitcher";
+import { UserMenu } from "./UserMenu";
+import { SubjectSelectList } from "./SubjectSelect";
 
-interface NavBarButtonProps {
-    href: string,
-    icon: JSXElement,
-    text: string,
-    alwaysActive?: boolean
+const Menu = () => {
+    const background = useColorModeValue('backgroundLight.back', 'backgroundDark.back');
+    const color = useColorModeValue('neutral.100', 'white');
+    const { onOpen, onClose, isOpen } = useDisclosure(); 
+    return (<>
+        <IconButton
+            onClick={onOpen}
+            size="lg" fontSize="lg"
+            icon={<AiOutlineMenu />}
+            color={color}
+            variant={'ghost'}
+            aria-label={`Открыть меню`}
+        />
+        <Drawer
+            isOpen={isOpen}
+            onClose={onClose}
+            placement='right'
+        >
+            <DrawerOverlay />
+            <DrawerContent background={background}>
+                <Flex gap={5} flexDirection='column' h='full'>
+                    <Flex
+                        flexDirection='column'
+                        p={5} gap={5} shadow='md'
+                        background='primary.100'
+                        borderBottomRadius='3xl'
+                        color='white'
+                    >
+                        <Box mx='auto'><NavigationButtonToMain /></Box>
+                        <UserMenu />
+                    </Flex>
+
+                    <SubjectSelectList />
+
+                    <Flex mt='auto' alignItems='center' px={5} py={2}>
+                        <Text fontSize={20} color={color}>Цветовая тема</Text>
+                        <ColorModeSwitcher ml='auto'/>
+                    </Flex>
+                </Flex>
+            </DrawerContent>
+        </Drawer>
+    </>);
 }
 
-const NavBarButton: Component<NavBarButtonProps> = (props) => {
-    const match = useMatch(() => props.href);
+export const NavigationBar = () => {
+    const background = useColorModeValue('backgroundLight.back', 'backgroundDark.back');
+    const color = useColorModeValue('neutral.100', 'white');
     return (
-        <Link href={subjectStore.isSubjectSelected() ? props.href : '#'}>
-            <IconButton
-                size="lg" fontSize="$lg"
-                variant={Boolean(match()) ? 'dashed' : 'ghost'}
-                borderRadius='$3xl' _hover={{ borderRadius: '$3xl' }}
-                color="current" marginLeft="2" icon={props.icon}
-                aria-label={`Перейти на страницу ${props.text}`}
-                onClick={showChooseSubjectNotify}
-            />
-        </Link>
-    )
-}
-
-export const NavigationBar: Component = () => {
-    const mainColor = useColorModeValue('$neutral6', '$neutral3');
-    return (
-        <Flex
-            zIndex='$docked'
-            flexDirection='row' gap={5}
-            p={5} m={0} width='100vw'
+        <HStack
+            zIndex='docked' background={background}
+            p={1.5} m={0} width='100vw'
             position='fixed' bottom={0}
             justifyContent='space-around'
-            bgColor={mainColor()}
+            shadow='dark-lg'
         >
-            <NavBarButton href='/' icon={<FiMenu />} text="главная" alwaysActive />
-            <NavBarButton href='/tasks-statistics' icon={<ImStatsDots />} text="статистика" />
-            <NavBarButton href='/treck-subject'icon={<BiTask />} text="выполнение заданий" />
-            <SubjectSelectPopover size='lg' />
-        </Flex>
+            <NavigationButton color={color} to='/statistics' icon={<ImStatsDots />} text="статистика" />
+            <NavigationButton color={color} to='/tasks-session'icon={<BiTask />} text="выполнение заданий" />
+            <Menu />
+        </HStack>
     );
 }

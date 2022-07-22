@@ -1,1 +1,0 @@
-import{a as t,d as r}from"./index.7b3f8e14.js";const n=e=>t(r,{margin:"auto",textAlign:"center",color:"$primary9",textTransform:"uppercase",letterSpacing:5,fontSize:"$3xl",get children(){return e.text}});export{n as P};
